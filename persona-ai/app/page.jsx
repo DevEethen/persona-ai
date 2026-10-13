@@ -85,18 +85,19 @@ export default function Home() {
 
   const activeChat = conversations.find((chat) => chat.id === activeId) || null;
   const messages = activeChat?.messages || [];
-
+  
+const newChat = useCallback(() => {
+  setActiveId(null);
+  setInput("");
+  setError("");
+  setSidebarOpen(false);
+  setTimeout(() => textareaRef.current?.focus(), 0);
+}, []);
+  
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages, loading]);
 
-  const newChat = useCallback(() => {
-    setActiveId(null);
-    setInput("");
-    setError("");
-    setSidebarOpen(false);
-    setTimeout(() => textareaRef.current?.focus(), 0);
-  }, []);
 
   const updateChat = (id, updater) => {
     setConversations((current) => current.map((chat) => chat.id === id ? updater(chat) : chat));
